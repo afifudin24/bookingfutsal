@@ -37,7 +37,7 @@ class CreateUsersSeeder extends Seeder
                 'email' => 'pemilik@gmail.com',
                 'type' => 2,
                 'password' => bcrypt('12345'),
-                'alamat' => 'Queen Futsal',
+                'alamat' => 'Gor Garnish',
 
             ],
         ];

@@ -22,14 +22,16 @@ class BookingAdminController extends Controller
         $booking = Booking::where('pembayaraan', 'Bayar Lunas')
             ->get();
         $data = Booking::all()->first();
-        return view('bookingadmin.index', compact('booking', 'data'));
+        $pembayaran = 'Online';
+        return view('bookingadmin.index', compact('booking', 'data', 'pembayaran'));
     }
     public function indexoffline(Request $request)
     {
         $booking = Booking::where('pembayaraan', 'Cash Lunas')
             ->get();
         $data = Booking::all()->first();
-        return view('bookingadmin.index', compact('booking', 'data'));
+        $pembayaran = 'Offline';
+        return view('bookingadmin.index', compact('booking', 'data', 'pembayaran'));
     }
     public function indexpemilik(Request $request)
     {
@@ -37,6 +39,13 @@ class BookingAdminController extends Controller
             ->get();
         $data = Booking::all()->first();
         return view('pemilik.index', compact('booking', 'data'));
+    }
+    public function createOffline()
+    {
+        $lapangan = Lapangan::all();
+        $data = Lapangan::first();
+        $allLapangan = Lapangan::all();
+        return view('bookingadmin.createOffline', compact('lapangan', 'data'));
     }
     public function indexpemilikoffline(Request $request)
     {

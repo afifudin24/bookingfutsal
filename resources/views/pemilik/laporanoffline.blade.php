@@ -49,77 +49,78 @@
     }
 </style>
 <div id="main">
-<div class="content">
-<div class="header">
-    <img src="{{ asset('layout/dist/img/logofutsal.jpg') }}" alt="AdminLTE Logo" width="150px" height="150px">
-    <div class="title" style="text-align: center;">
-        <h3>QUEEN FUTSAL</h3>
-        <h3>Transaksi Offline</h3>
-      <p>Jl. Brigadir Jend. Katamso No.66, Cihaur Geulis, Kec. Cibeunying Kidul, Kota Bandung, Jawa Barat 40122</p> 
+    <div class="content">
+        <div class="header">
+            <img src="{{ asset('layout/dist/img/logofutsal.jpg') }}" alt="AdminLTE Logo" width="150px" height="150px">
+            <div class="title" style="text-align: center;">
+                <h3>Gor Garnish</h3>
+                <h3>Transaksi Offline</h3>
+                <p>Jl. Karangtengah, Ciklapa, Kec. Kedungreja, Kab. Cilacap Jawa Tengah</p>
+            </div>
+        </div>
+        <hr style="height: 3px;background-color: black;">
+        {{-- <h2 style="text-align:center">LAPORAN REKAP </h2> --}}
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    {{-- <th>No</th> --}}
+                    <th>Booking AN</th>
+                    {{-- <th>Lapangan</th> --}}
+                    <th>Pembayaraan</th>
+                    <th>Mulai</th>
+                    <th>Selesai</th>
+                    <th>Jam</th>
+                    <th>Harga</th>
+                    <th>Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $item)
+
+                    <tr>
+
+                        {{-- <td>{{ $loop->iteration }}</td> --}}
+                        <td>{{ $item->user->name }}</td>
+                        {{-- <td>{{ $item->lapangan->nama }}</td> --}}
+                        @if (is_null($item->bukti))
+                            <td>Belum Bayar</td>
+                        @else
+                            {{-- <td><img src="{{asset('storage/img/' . $item->bukti)}}" alt="foto" width="100px"></td> --}}
+                            <td>{{ $item->pembayaraan }}</td>
+                        @endif
+
+                        <td>{{ Carbon\Carbon::parse($item->time_from)->format('d-M-Y H:00') }}</td>
+                        <td>{{ Carbon\Carbon::parse($item->time_to)->format('d-M-Y H:00') }}</td>
+                        <td>{{ $item->jam }}</td>
+                        <td>@currency ($item->total_harga)</td>
+                        <td>{{ $item->status }}</td>
+
+
+
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    {{-- <th>No</th> --}}
+                    <th>Booking AN</th>
+                    {{-- <th>Lapangan</th> --}}
+                    <th>Pembayaraan</th>
+                    <th>Mulai</th>
+                    <th>Selesai</th>
+                    <th>Jam</th>
+                    <th>Harga</th>
+                    <th>Status</th>
+
+                </tr>
+            </tfoot>
+        </table>
+        <h2 style="margin : 25px 0px 0px 720px">Meiliani Ajang</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Tanda_Tangan_Mick_Schumacher.png" alt=""
+            style="margin : 25px 0px 0px 720px" width="150px" height="150px">
     </div>
-</div>
-<hr style="height: 3px;background-color: black;">
-{{-- <h2 style="text-align:center">LAPORAN REKAP </h2> --}}
-<table id="example1" class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        {{-- <th>No</th> --}}
-        <th>Booking AN</th>
-        {{-- <th>Lapangan</th> --}}
-        <th>Pembayaraan</th>
-        <th>Mulai</th>
-        <th>Selesai</th>
-        <th>Jam</th>
-        <th>Harga</th>
-        <th>Status</th>
-
-      </tr>
-      </thead>
-      <tbody>
-        @foreach ($data as $item)
-        
-        <tr>
-                      
-        {{-- <td>{{ $loop->iteration }}</td> --}}
-        <td>{{ $item->user->name }}</td>
-        {{-- <td>{{ $item->lapangan->nama }}</td> --}}
-        @if (is_null($item->bukti))
-        <td>Belum Bayar</td>
-        @else
-        {{-- <td><img src="{{asset('storage/img/' . $item->bukti)}}" alt="foto" width="100px"></td> --}}
-        <td>{{ $item->pembayaraan }}</td>
-        @endif
-      
-        <td>{{ Carbon\Carbon::parse($item->time_from)->format('d-M-Y H:00') }}</td>  
-        <td>{{ Carbon\Carbon::parse($item->time_to)->format('d-M-Y H:00') }}</td> 
-        <td>{{ $item->jam }}</td>    
-        <td>@currency ($item->total_harga)</td>    
-        <td>{{ $item->status }}</td>    
-
-
-        
-        </tr>  
-        @endforeach
-      </tbody>
-      <tfoot>
-      <tr>
-        {{-- <th>No</th> --}}
-        <th>Booking AN</th>
-        {{-- <th>Lapangan</th> --}}
-        <th>Pembayaraan</th>
-        <th>Mulai</th>
-        <th>Selesai</th>
-        <th>Jam</th>
-        <th>Harga</th>
-        <th>Status</th>
-
-      </tr>
-      </tfoot>
-  </table>
-  <h2 style="margin : 25px 0px 0px 720px">Meiliani Ajang</h2>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Tanda_Tangan_Mick_Schumacher.png" alt="" style="margin : 25px 0px 0px 720px" width="150px" height="150px">
-</div>
-<!-- /.card-body -->
+    <!-- /.card-body -->
 </div>
 <!-- /.card -->
 </div>

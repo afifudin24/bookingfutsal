@@ -59,7 +59,15 @@ class BookingController extends Controller
     {
         $lapangan = Lapangan::all();
         $data = Lapangan::first();
+        $allLapangan = Lapangan::all();
         return view('booking.create', compact('lapangan', 'data'));
+    }
+    public function bookingOffline()
+    {
+        $lapangan = Lapangan::all();
+        $data = Lapangan::first();
+        $allLapangan = Lapangan::all();
+        return view('booking.bookingOffline', compact('lapangan', 'data'));
     }
     public function store(Request $request)
     {
@@ -78,8 +86,8 @@ class BookingController extends Controller
                             ->where('time_from', 'like', $now->format('Y-m-d') . '%')
                             ->get();
                         foreach ($today as $book) {
-                            if ($now->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to)) ) {
-                                if($book->lapangan_id == $request['lapangan_id']){
+                            if ($now->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to))) {
+                                if ($book->lapangan_id == $request['lapangan_id']) {
                                     $fail('Waktu telah di booking');
                                 }
                             }
@@ -98,7 +106,7 @@ class BookingController extends Controller
                             ->get();
                         foreach ($today as $book) {
                             if ($now->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to))) {
-                                if($book->lapangan_id == $request['lapangan_id']){
+                                if ($book->lapangan_id == $request['lapangan_id']) {
                                     $fail('Waktu telah di booking');
                                 }
 
@@ -145,7 +153,7 @@ class BookingController extends Controller
             foreach ($today as $book) {
                 if ($check->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to))) {
                     // dd($book->lapangan_id == $request['lapangan_id']);
-                    if($book->lapangan_id == $request['lapangan_id']){
+                    if ($book->lapangan_id == $request['lapangan_id']) {
                         throw ValidationException::withMessages([
                             'time_from' => 'Waktu telah di booking',
                             'time_to' => 'Waktu telah di booking',
@@ -153,13 +161,18 @@ class BookingController extends Controller
                     }
                 }
             }
-            if ($i < 15) {
-                $total += $lapangan->harga;
-            } else if ($i >= 15 && $i < 18) {
-                $total += ($lapangan->harga + 50000);
+
+            if ($lapangan->nama == 'Lapangan Futsal') {
+                if ($i < 17) {
+                    $total += $lapangan->harga;
+
+                } else {
+                    $total += ($lapangan->harga + 40000);
+                }
             } else {
-                $total += ($lapangan->harga + 100000);
+                $total += $lapangan->harga;
             }
+
         }
         // dd([
         //     'lapangan_id' => $request['lapangan_id'],
@@ -171,7 +184,7 @@ class BookingController extends Controller
         //     'jam' => $jam,
         //     'total_harga' => $total,
         // ]);
-        if (Auth::user()->type == '1') {
+        if (Auth::user()->type == 'admin') {
             $data = Booking::create(
                 [
                     'lapangan_id' => $request['lapangan_id'],
@@ -183,8 +196,6 @@ class BookingController extends Controller
                     'jam' => $jam,
                     'total_harga' => $total,
                     'pembayaraan' => 'Cash Lunas',
-
-
                 ]
             );
         } else {
@@ -212,8 +223,8 @@ class BookingController extends Controller
         //     ->delay(now()->addMinutes(15));
         // CompleteBooking::dispatch($data->id, 0)
         //     ->delay(Carbon::parse($data->time_to));
-        if (Auth::user()->type == '1') {
-            return redirect('/bookingadmin/index')->with('success', 'Data Berhasil Disimpan');
+        if (Auth::user()->type == 'admin') {
+            return redirect('/bookingadmin/indexoffline')->with('success', 'Data Berhasil Disimpan');
         } else {
             return redirect('/booking/index')->with('success', 'Data Berhasil Disimpan');
         }
@@ -250,7 +261,7 @@ class BookingController extends Controller
                             ->where('time_from', 'like', $now->format('Y-m-d') . '%')
                             ->get();
                         foreach ($today as $book) {
-                            if ($now->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to)) && $book->user_id !== auth()->user()->id ){
+                            if ($now->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to)) && $book->user_id !== auth()->user()->id) {
                                 $fail('Waktu telah di booking');
                             }
                         }
@@ -268,7 +279,7 @@ class BookingController extends Controller
                             ->where('time_from', 'like', $now->format('Y-m-d') . '%')
                             ->get();
                         foreach ($today as $book) {
-                            if ($now->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to)) && $book->user_id !== auth()->user()->id ) {
+                            if ($now->between(Carbon::parse($book->time_from), Carbon::parse($book->time_to)) && $book->user_id !== auth()->user()->id) {
                                 $fail('Waktu telah di booking');
                             }
                         }
