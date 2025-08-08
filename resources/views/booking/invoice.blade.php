@@ -352,8 +352,7 @@
                                                                                 <tr class="total">
                                                                                     <td class="alignright" width="80%">
                                                                                         Total</td>
-                                                                                    <td class="alignright">@currency
-                                                                                        ($data->total_harga)</td>
+                                                                                    <td class="alignright">@currency($data->total_harga)</td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -384,7 +383,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="aligncenter content-block">Questions? Email <a
-                                                href="mailto:">queenfutsal@gmail.com</a></td>
+                                                href="mailto:">garnishfutsal@gmail.com</a></td>
                                     </tr>
                                 </tbody>
                             </table>

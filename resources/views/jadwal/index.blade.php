@@ -62,19 +62,19 @@
 
 
         /*
-                            *
-                            * ==========================================
-                            * FOR DEMO PURPOSES
-                            * ==========================================
-                            *
-                            */
+                                    *
+                                    * ==========================================
+                                    * FOR DEMO PURPOSES
+                                    * ==========================================
+                                    *
+                                    */
 
         li {
             font-style: italic;
         }
     </style>
     <center>
-        <h1>Booking Futsal</h1>
+        <h1>Booking Lapangan</h1>
         <span>Klik tanggal untuk booking</span>
 
     </center>
@@ -162,7 +162,7 @@
                                                     id="totalbayar">@currency($data->harga)</span></label>
 
                                             <div class="row p-2">
-                                                <button type="submit" class="btn btn-primary">Send</button>
+                                                <button type="submit" class="btn btn-primary">Kirim</button>
                                             </div>
                                         </div>
                                     </div>
@@ -241,16 +241,16 @@
 
                     // Format HTML dengan list
                     let content = `
-                                    <div style="padding: 4px;">
-                                        <ul style="padding-left: 16px; margin: 4px 0; list-style-type: disc;">
-                                            <li>
-                                                <strong>${arg.event.title}</strong> <!-- Nama User + Jam -->
-                                                <p>${formattedStart} - ${formattedEnd}</p>
+                                            <div style="padding: 4px;">
+                                                <ul style="padding-left: 16px; margin: 4px 0; list-style-type: disc;">
+                                                    <li>
+                                                        <strong>${arg.event.title}</strong> <!-- Nama User + Jam -->
+                                                        <p>${formattedStart} - ${formattedEnd}</p>
 
-                                            </li>
-                                        </ul>
-                                    </div>
-                                `;
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        `;
 
                     return { html: content }; // Render sebagai HTML
                 },
@@ -271,20 +271,21 @@
 
             calendar.render();
         });
-        $('.datetimepicker').datetimepicker({
-            format: 'YYYY-MM-DD HH:00',
-            locale: 'id',
-            sideBySide: true,
-            icons: {
-                up: 'fas fa-chevron-up',
-                down: 'fas fa-chevron-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-            },
-            minDate: new Date,
-            stepping: 10,
-            disabledHours: [0, 1, 2, 3, 4, 5, 6]
-        });
+      $('.datetimepicker').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm', // gunakan HH:mm agar bisa tampil menit
+    locale: 'id',
+    sideBySide: true,
+    icons: {
+        up: 'fas fa-chevron-up',
+        down: 'fas fa-chevron-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+    },
+    minDate: new Date(),      // hanya bisa pilih mulai dari sekarang
+    stepping: 30,             // setiap 30 menit
+    disabledHours: [0, 1, 2, 3, 4, 5, 6] // nonaktifkan jam 00:00 - 06:59
+});
+
         $('.datetimepicker').on('dp.change', e => {
             const timefrom = moment($('#time_from').val());
             const timeto = moment($('#time_to').val());

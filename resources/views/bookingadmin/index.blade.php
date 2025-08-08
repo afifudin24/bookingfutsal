@@ -31,6 +31,7 @@
             <label>End date</label>
             <input type="date" name="end_date" class="form-control">
             </div>
+            <input type="hidden" value="{{$pembayaran}}}" name="pembayaran">
             <div class="col-md-1 pt-4" style="margin: 5px 0px 0px 0px">
             <button type="submit" class="btn btn-primary">Filter</button>
             </div>
@@ -49,12 +50,12 @@
             <th>Harga</th>
             <th>Status</th>
             @if (auth()->user()->type == 'admin')
-        <th>Action</th>
+        <th>Aksi</th>
       @endif
             @if (auth()->user()->type == 'user')
-        <th>Action</th>
+        <th>Aksi</th>
       @endif
-            <th>-</th>
+
 
             </tr>
           </thead>
@@ -88,7 +89,7 @@
         <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Action
+     Aksi
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
         <a class="dropdown-item" href="/bookingadmin/{{ $item->id }}/edit">
@@ -99,13 +100,13 @@
         </div>
         </div>
         </form>
-        @if ($item->status == 'Pending')
+        @if ($item->status == 'Menunggu Konfirmasi Pelunasan')
       <form action="{{ url("/bookingadmin/bookingadmin/konfirmasi") }}" method="post"
       enctype="multipart/form-data">
       @csrf
       <input style="display: none;" type="text" hidden name="id" value="{{ $item->id }}"
       class="form-control">
-      <input style="display: none;" type="text" hidden name="status" value="Masuk Jadwal"
+      <input style="display: none;" type="text" hidden name="status" value="Lunas"
       class="form-control">
 
       <button type="submit" class="btn btn-success mb-2 mt-2">Konfirmasi</button>
@@ -121,7 +122,7 @@
       <button type="submit" class="btn btn-danger mb-2">Reject</button>
       </form>
     @endif
-        @if ($item->status == 'Masuk Jadwal')
+        @if ($item->status == 'Masuk Jadwal' || $item->status == 'Lunas')
       <form action="{{ url("/bookingadmin/bookingadmin/konfirmasi") }}" method="post"
       enctype="multipart/form-data">
       @csrf
@@ -155,12 +156,12 @@
             <th>Harga</th>
             <th>Status</th>
             @if (auth()->user()->type == 'admin')
-        <th>Action</th>
+        <th>Aksi</th>
       @endif
             @if (auth()->user()->type == 'user')
-        <th>Action</th>
+        <th>Aksi</th>
       @endif
-            <th>-</th>
+
             </tr>
           </tfoot>
           </table>

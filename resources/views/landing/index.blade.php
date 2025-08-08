@@ -45,8 +45,9 @@
             <div class="d-flex justify-content-center">
                 <div class="text-center">
                     <h1 class="mx-auto my-0 text-uppercase">Gor Garnish</h1>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Best Futsal Center In Bandung</h2>
-                    <a class="btn btn-primary" href="{{ url('/login') }}">Booking Now</a>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Best Futsal Center In Kedungreja</h2>
+                    <a class="btn btn-primary" href="{{ url('/login') }}">Booking Disini</a>
+                    <a href="#projects" class='btn btn-info'>Cek Jadwal</a>
                 </div>
             </div>
         </div>
@@ -233,7 +234,7 @@
                             <i class="fas fa-envelope text-primary mb-2"></i>
                             <h4 class="text-uppercase m-0">Email</h4>
                             <hr class="my-4 mx-auto" />
-                            <div class="small text-black-50"><a href="#!">queenfutsal@gmail.com</a></div>
+                            <div class="small text-black-50"><a href="#!">garnish@gmail.com</a></div>
                         </div>
                     </div>
                 </div>
@@ -251,9 +252,7 @@
             <div class="social justify-content-center">
                 <div class="mapouter">
                     <div class="gmap_canvas">
-                        <iframe width="100%" height="100%" id="gmap_canvas"
-                            src="https://maps.google.com/maps?q=queen futsal&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                            frameborder="0" scrolling="yes" marginheight="0" marginwidth="0"></iframe><a
+                       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.663893043362!2d108.7864738!3d-7.5023076999999985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e65828b092c0ae3%3A0x3c0b06f342adc1c!2sGARNISH%20SARI%20FUTSAL!5e0!3m2!1sid!2sid!4v1754301537330!5m2!1sid!2sid" style="border:0; width:100%;" height='400' allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><a
                             href="https://2yu.co">
                             <style>
                                 .mapouter {

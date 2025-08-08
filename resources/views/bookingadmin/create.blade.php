@@ -1,11 +1,11 @@
 @extends('layout.master')
-  
+
 @section('judul')
 Index User
 @endsection
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Horizontal Layouts</h4>
+    <!-- <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Horizontal Layouts</h4> -->
     <!-- Basic Layout & Basic with Icons -->
     {{-- <div class="row"> --}}
         <!-- Basic with Icons -->
@@ -17,22 +17,26 @@ Index User
             <div class="col-xxl">
         <div class="card mb-4">
           <div class="card-header d-flex align-items-center justify-content-between">
-            <h5 class="mb-0">Basic with Icons</h5>
-            <small class="text-muted float-end">Merged input group</small>
+            <h5 class="mb-0">Data Booking</h5>
+
           </div>
           <div class="card-body">
             <form>
               <label for="lapangan_id">Lapangan</label>
               <select name="lapangan_id" id="lapangan_id" class="form-control" disabled>
-                {{-- <option value="">Pilih Ruangan</option> --}}
+
                 @foreach ($lapangan as $item)
+                @if($booking->lapangan_id == $item->id)
+                    <option  selected value="{{ $item->id }}">{{ $item->nama }}</option>
+                    @else
                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                    {{-- <option @selected(old('nama_ruangan', @$item->nama_ruangan) == '' ) value="">- Pilih Lantai -</option> --}}
-                    {{-- <option @selected(old('id', @$item->id) == @$item->id) value="{{ @$item->id }}">{{ $item->nama_ruangan }}</option> --}}
-              
+                @endif
+                    <!-- {{-- <option @selected(old('nama_ruangan', @$item->nama_ruangan) == '' ) value="">- Pilih Lantai -</option> --}}
+                    {{-- <option @selected(old('id', @$item->id) == @$item->id) value="{{ @$item->id }}">{{ $item->nama_ruangan }}</option> --}} -->
+                    @endforeach
+
             </select>
             <input style="display: none;" type="text" hidden name="harga" value="{{ $item->harga }}" class="form-control">
-            @endforeach
             @error('lapangan_id')
             <div class="alert alert-danger">
                 {{ $message }}
@@ -69,14 +73,18 @@ Index User
       <input type="text" class="form-control" id="nama" name="user_id" value="@currency (  $booking->total_harga )" disabled/>
   </div>
       {{-- @if (is_null(@$booking->bukti))
-      
+
       @else --}}
       <div class="mb-3 row mt-3">
         <label for="foto_barang" class="col-sm-2 col-form-label">Bukti</label>
         <div class="col-sm-5">
-          <label>Bayar DP sebesar 50% : @currency ( $booking->total_harga/2)</label>
+            @if($booking->pembayaraan == 'Bayar DP')
+            <label>Bayar DP sebesar 50% : @currency ( $booking->total_harga/2)</label>
+            @elseif($booking->pembayaraan == 'Bayar Lunas')
+            <label>Bayar Lunas : @currency ( $booking->total_harga)</label>
+            @endif
           @if(!empty(@$booking->bukti))
-          
+
           <img src="{{ asset('storage/img/' . $booking->bukti) }}" class="mb-3" alt="foto" width="240px" id="geeks"/>
           @endif
               {{-- <input type="file" class="form-control" name="bukti" id="bukti" placeholder="bukti"> --}}
@@ -90,27 +98,29 @@ Index User
       {{-- @endif --}}
       @if(!empty(@$booking->bukti))
       <label for="type">Status</label>
-      <select id="status" name="status" class="form-select">
-        <option value="Masuk Jadwal">Masuk Jadwal</option>
-        <option value="Reject">Reject</option>
-        <option value="Selesai">Selesai</option>
+      <select id="status" name="status" class="form-control">
+        <option class="form-control" value="Masuk Jadwal">Masuk Jadwal</option>
+        <option class="form-control" value="Reject">Reject</option>
+        <option class="form-control" value="Selesai">Selesai</option>
       </select>
       @error('status')
 <div class="alert alert-danger">
   {{ $message }}
 </div>
 @enderror
-    </div>
 
-
-      <div class="row justify-content-end">
+ <div class="row justify-content-start mb-4 mt-3">
         <div class="col-sm-10">
-          <button type="submit" class="btn btn-primary">Send</button>      
+          <button type="submit" class="btn btn-primary">Update</button>
       @else
 
       @endif
-      
+
                 </div>
+    </div>
+
+
+
               </div>
             </form>
           </div>
@@ -124,25 +134,26 @@ Index User
           <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
               <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
               <script>
-                  $('.datetimepicker').datetimepicker({
-                      // format: 'YYYY-MM-DD HH:mm',
-                      format: 'YYYY-MM-DD HH',
-                      locale: 'en',
-                      sideBySide: true,
-                      icons: {
-                      up: 'fas fa-chevron-up',
-                      down: 'fas fa-chevron-down',
-                      previous: 'fas fa-chevron-left',
-                      next: 'fas fa-chevron-right'
-                      },
-                      stepping: 10
-                  });
+                 $('.datetimepicker').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm', // gunakan HH:mm agar bisa tampil menit
+    locale: 'id',
+    sideBySide: true,
+    icons: {
+        up: 'fas fa-chevron-up',
+        down: 'fas fa-chevron-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+    },
+    minDate: new Date(),      // hanya bisa pilih mulai dari sekarang
+    stepping: 30,             // setiap 30 menit
+    disabledHours: [0, 1, 2, 3, 4, 5, 6] // nonaktifkan jam 00:00 - 06:59
+});
                   function zoomin() {
             var GFG = document.getElementById("geeks");
             var currWidth = GFG.clientWidth;
             GFG.style.width = (currWidth + 100) + "px";
         }
-          
+
         function zoomout() {
             var GFG = document.getElementById("geeks");
             var currWidth = GFG.clientWidth;

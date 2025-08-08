@@ -59,31 +59,30 @@
                                     @elseif($booking->bukti == 'Lunas')
                                         <img class="card-img-top" style="width: 200px" src="{{ asset("images/lunas.webp")}}"
                                             alt="{{$booking->bukti}}">
-
+                                    @elseif($booking->bukti == 'Bayar DP')
+                                        <h5 class="font-size-16 mb-3">Belum Lunas</h5>
                                     @else
                                         <h5 class="font-size-16 mb-3" style="color: red">Belum bayar DP</h5>
                                     @endif
-                                    {{-- <button type="button" onclick="zoomin()">
+                                    <!-- {{-- <button type="button" onclick="zoomin()">
                                         Zoom-In
                                     </button>
                                     <button type="button" onclick="zoomout()">
                                         Zoom-Out
                                     </button> <br> --}}
-                                    {{-- <h5 class="font-size-15 mb-2">Preston Miller</h5>
-                                    <p class="mb-1">4068 Post Avenue Newfolden, MN 56738</p>
-                                    <p class="mb-1">PrestonMiller@armyspy.com</p>
-                                    <p>001-234-5678</p> --}}
+                                -->
+
                                 </div>
                             </div>
                             <!-- end col -->
                             <div class="col-sm-6">
                                 <div class="text-muted text-sm-end">
                                     <div>
-                                        <h5 class="font-size-15 mb-1">Laporan No:</h5>
+                                        <h5 class="font-size-15 mb-1">No Transaksi:</h5>
                                         <p>{{ $booking->id  }}{{ $booking->created_at->format('mdY') }}</p>
                                     </div>
                                     <div class="mt-4">
-                                        <h5 class="font-size-15 mb-1">Tanggal Laporan:</h5>
+                                        <h5 class="font-size-15 mb-1">Tanggal Transaksi:</h5>
                                         <p>{{ $booking->created_at->format('d-M-Y') }}</p>
                                     </div>
                                     {{-- <div class="mt-4">
@@ -124,8 +123,8 @@
                                             <td>{{ $booking->jam }}</td>
 
                                             {{-- <td class="text-end">@currency($data->stok * $data->harga_barang)</td> --}}
-                                            <td>@currency ($booking->lapangan->harga)</td>
-                                            <td>@currency ($booking->lapangan->harga * $booking->jam)</td>
+                                            <td>@currency ($booking->total_harga / $booking->jam)</td>
+                                            <td>@currency ($booking->total_harga)</td>
 
                                             {{-- <td>{{ $data->keterangan }}</td> --}}
 

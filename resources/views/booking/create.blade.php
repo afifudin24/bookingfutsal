@@ -66,17 +66,11 @@
       <div class="col-xxl">
       <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="mb-0">Form edit</h5>
+        <h5 class="mb-0">Edit</h5>
         {{-- <small class="text-muted float-end">Merged input group</small> --}}
         </div>
         <div class="card-body">
-        <h4 class="mb-4">Keterangan Harga</h4>
-        <!-- List with bullets -->
-        <ul class="list-bullets">
-          <li class="mb-2"> Jam 7-12 : @currency($data->harga)</li>
-          <li class="mb-2"> Jam 15-18 : @currency($data->harga + 50000)</li>
-          <li class="mb-2">Jam 19-23 : @currency($data->harga + 100000)</li>
-        </ul>
+
         <form>
           {{-- <label for="lapangan_id">Lapangan</label> --}}
           <select hidden name="lapangan_id" id="lapangan_id" class="form-control">
@@ -142,34 +136,34 @@
         <label for="foto_barang" class="">Bayar Lunas sebesar : <span
           id="total">@currency($booking->total_harga)</span></label>
 
-        <label>Ke Rekening BRI : 01110022 </label><br>
-        <label>Atas Nama : Meiliani Ajang </label>
+        <label>Ke Rekening BRI : 678501037421534 </label><br>
+        <label>Atas Nama : Saiful Alam </label>
 
         <input type="file" class="form-control" name="bukti" id="bukti" placeholder="bukti">
 
-        {{-- <div class="form-check mt-3">
-        <input class="form-check-input" type="radio" name="pembayaraan" id="pembayaraan" value="Bayar DP"
-          checked>
-        <label class="form-check-label" for="flexRadioDefault1">
-          Bayar DP
-        </label>
-        </div> --}}
-        <div class="form-check mt-3">
-        <input class="form-check-input" type="radio" name="pembayaraan" id="pembayaraan" value="Bayar Lunas"
-          checked>
-        <label class="form-check-label" for="flexRadioDefault2">
-          Bayar Lunas
-        </label>
-        </div>
+      <div class="form-check mt-3">
+  <input class="form-check-input" type="radio" name="pembayaraan" id="bayar_dp" value="Bayar DP" checked>
+  <label class="form-check-label" for="bayar_dp">
+    Bayar DP
+  </label>
+</div>
+
+<div class="form-check mt-3">
+  <input class="form-check-input" type="radio" name="pembayaraan" id="bayar_lunas" value="Bayar Lunas">
+  <label class="form-check-label" for="bayar_lunas">
+    Bayar Lunas
+  </label>
+</div>
+
         </div>
         </div>
         @error('bukti')
 
     @enderror
       @endif
-          <div class="row justify-content-end">
+          <div class="row justify-content-start">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Send</button>
+            <button type="submit" class="btn btn-primary">Kirim</button>
           </div>
           </div>
         </form>
@@ -193,32 +187,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/id.js"></script>
 
     <script>
-    $('.datetimepicker').datetimepicker({
-      // format: 'YYYY-MM-DD HH:mm',
-      format: 'YYYY-MM-DD HH:00',
-      locale: 'id',
-      sideBySide: true,
-      icons: {
-      up: 'fas fa-chevron-up',
-      down: 'fas fa-chevron-down',
-      previous: 'fas fa-chevron-left',
-      next: 'fas fa-chevron-right',
-      },
-      minDate: new Date,
-      stepping: 10,
-      disabledHours: [0, 1, 2, 3, 4, 5, 6]
-    });
+$('.datetimepicker').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm', // gunakan HH:mm agar bisa tampil menit
+    locale: 'id',
+    sideBySide: true,
+    icons: {
+        up: 'fas fa-chevron-up',
+        down: 'fas fa-chevron-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+    },
+    minDate: new Date(),      // hanya bisa pilih mulai dari sekarang
+    stepping: 30,             // setiap 30 menit
+    disabledHours: [0, 1, 2, 3, 4, 5, 6] // nonaktifkan jam 00:00 - 06:59
+});
 
     if (@js($booking)) {
-      $('#time_from').val(moment(@js($booking->time_from)).format('YYYY-MM-DD HH:00'));
-      $('#time_to').val(moment(@js($booking->time_to)).format('YYYY-MM-DD HH:00'));
+      $('#time_from').val(moment(@js($booking->time_from)).format('YYYY-MM-DD HH:mm'));
+      $('#time_to').val(moment(@js($booking->time_to)).format('YYYY-MM-DD HH:mm'));
     }
 
     if (@js(old('time_from'))) {
-      $('#time_from').val(moment(@js(old('time_from'))).format('YYYY-MM-DD HH:00'));
+      $('#time_from').val(moment(@js(old('time_from'))).format('YYYY-MM-DD HH:mm'));
     }
     if (@js(old('time_to'))) {
-      $('#time_to').val(moment(@js(old('time_to'))).format('YYYY-MM-DD HH:00'));
+      $('#time_to').val(moment(@js(old('time_to'))).format('YYYY-MM-DD HH:mm'));
     }
     function zoomin() {
       var GFG = document.getElementById("geeks");
@@ -239,20 +232,23 @@
       const start = +timefrom.format('H');
       const end = +timeto.format('H');
 
-      const harga = @js($data->harga);
+      const harga = textharga;
 
       let total = 0;
       for (let i = start; i < end; i++) {
-      if (i < 15) {
+      if (lapanganNama == 'Lapangan Futsal') {
+
+        if (i < 17) {
         total += +harga;
-      } else if (i >= 15 && i < 18) {
-        total += (+harga + 50000);
+        } else {
+        total += (+harga + 40000);
+        }
       } else {
-        total += (+harga + 100000);
+        total += +harga;
       }
       }
 
-      $('#total').text('Rp. ' + Intl.NumberFormat().format(total));
+      $('#totalbayar').text('Rp. ' + Intl.NumberFormat().format(total));
       $('#dp').text('Rp. ' + Intl.NumberFormat().format(total / 2));
     })
     </script>

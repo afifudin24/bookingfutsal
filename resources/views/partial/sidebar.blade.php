@@ -55,11 +55,14 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   @if (auth()->user()->type == 'user')
-            <a href="{{ url('/dashboarduser') }}" class="nav-link active">
+            <a href="{{ url('/dashboarduser') }}"
+            class="nav-link {{ request()->is('dashboarduser') ? 'active' : '' }}">
         @endif
                     @if (auth()->user()->type == 'admin')
-            <a href="{{ url('/dashboard') }}" class="nav-link active">
+            <a href="{{ url('/dashboard') }}"
+              class="nav-link {{ request()->is('dashboard') ? 'nav-link active' : '' }}">
             @endif
+
                       @if (auth()->user()->type == 'pemilik')
               <a href="{{ url('/pemilik/dashboard') }}" class="nav-link active">
           @endif
@@ -70,8 +73,8 @@
 
             </li>
             @if (auth()->user()->type == 'user')
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item {{ request()->is('booking/*') ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ request()->is('booking/*') ? 'active' : '' }}">
           <i class="nav-icon fas fa-table"></i>
           <p>
             Management Booking
@@ -80,23 +83,26 @@
           </a>
           <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ url('/booking/index') }}" class="nav-link">
+            <a href="{{ url('/booking/index') }}"
+            class="nav-link {{ request()->is('booking/index') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Data Booking</p>
             </a>
-            <a href="{{ url('/booking/jadwal') }}" class="nav-link">
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('/booking/jadwal') }}"
+            class="nav-link {{ request()->is('booking/jadwal') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Jadwal Booking</p>
             </a>
           </li>
-
-
           </ul>
         </li>
+
       @endif
             @if (auth()->user()->type == 'admin')
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item {{ request()->is('admin/*') ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ request()->is('admin/*') ? 'active' : '' }}">
           <i class="nav-icon fas fa-table"></i>
           <p>
             Management User
@@ -105,22 +111,24 @@
           </a>
           <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ url('/admin/index') }}" class="nav-link">
+            <a href="{{ url('/admin/index') }}"
+            class="nav-link {{ request()->is('admin/index') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Data User</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('/admin/create') }}" class="nav-link">
+            <a href="{{ url('/admin/create') }}"
+            class="nav-link {{ request()->is('admin/create') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Tambah User</p>
             </a>
           </li>
-
           </ul>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+
+        <li class="nav-item {{ request()->is('lapangan/*') ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ request()->is('lapangan/*') ? 'active' : '' }}">
           <i class="nav-icon fas fa-table"></i>
           <p>
             Management Lapangan
@@ -129,17 +137,17 @@
           </a>
           <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ url('/lapangan/index') }}" class="nav-link">
+            <a href="{{ url('/lapangan/index') }}"
+            class="nav-link {{ request()->is('lapangan/index') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Data Lapangan</p>
             </a>
           </li>
-
-
           </ul>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+
+        <li class="nav-item {{ request()->is('bookingadmin/*') ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ request()->is('bookingadmin/*') ? 'active' : '' }}">
           <i class="nav-icon fas fa-table"></i>
           <p>
             Management Booking
@@ -148,23 +156,29 @@
           </a>
           <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{ url('/bookingadmin/index') }}" class="nav-link">
+            <a href="{{ url('/bookingadmin/index') }}"
+            class="nav-link {{ request()->is('bookingadmin/index') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Data Booking Online</p>
             </a>
-            <a href="{{ url('/bookingadmin/indexoffline') }}" class="nav-link">
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('/bookingadmin/indexoffline') }}"
+            class="nav-link {{ request()->is('bookingadmin/indexoffline') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Data Booking Offline</p>
             </a>
-            <a href="{{ url('/bookingadmin/jadwal') }}" class="nav-link">
+          </li>
+          <li class="nav-item">
+            <a href="{{ url('/bookingadmin/jadwal') }}"
+            class="nav-link {{ request()->is('bookingadmin/jadwal') ? 'active' : '' }}">
             <i class="far fa-circle nav-icon"></i>
             <p>Jadwal Booking</p>
             </a>
           </li>
-
-
           </ul>
         </li>
+
       @endif
             @if (auth()->user()->type == 'pemilik')
         <li class="nav-item">
@@ -191,6 +205,31 @@
           </ul>
         </li>
       @endif
+
+            <!-- tambahkan navigasi ke laporan -->
+            @if(auth()->user()->type == 'admin')
+        <li class="nav-item">
+          <a href="{{ url('/laporan') }}" class="nav-link {{request()->is('laporan') ? 'active' : ''}}">
+          <i class="nav-icon fas fa-file"></i>
+          <p>
+            Laporan
+
+          </p>
+          </a>
+        </li>
+      @endif
+
+
+            <li class="nav-item">
+              <a href="{{ url('/feedback') }}" class="nav-link {{request()->is('feedback') ? 'active' : ''}}">
+                <i class="nav-icon fas fa-comment"></i>
+                <p>
+                  Feedback
+
+                </p>
+              </a>
+            </li>
+
         </nav>
         <!-- /.sidebar-menu -->
       </div>

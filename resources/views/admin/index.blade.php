@@ -77,10 +77,13 @@
     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Action
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-    <a class="dropdown-item" href="{{ url("/admin/$item->id/edit") }}"><i
-    class="bx bx-edit-alt me-2"></i> Edit</a>
-    <input type="submit" class="btn btn-danger btn-sm" value="delete">
+    <div class="dropdown-menu text-center" aria-labelledby="dropdownMenu2">
+    <a class="btn btn-warning" href="{{ url("/admin/$item->id/edit") }}"><i
+    class="bx  bx-edit-alt me-2"></i> Edit</a>
+    <br>
+    
+    <button type="submit" class="btn mx-auto btn-danger mt-1"><i
+    class="bx  bx-trash-alt me-2"></i> Hapus</button>
     </div>
     </div>
   </form>

@@ -1,5 +1,5 @@
 @extends('layout.master')
-  
+
 @section('judul')
 Index User
 @endsection
@@ -29,7 +29,7 @@ Index User
                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                     {{-- <option @selected(old('nama_ruangan', @$item->nama_ruangan) == '' ) value="">- Pilih Lantai -</option> --}}
                     {{-- <option @selected(old('id', @$item->id) == @$item->id) value="{{ @$item->id }}">{{ $item->nama_ruangan }}</option> --}}
-              
+
             </select>
             <input style="display: none;" type="text" hidden name="harga" value="{{ $item->harga }}" class="form-control">
             @endforeach
@@ -38,7 +38,7 @@ Index User
                 {{ $message }}
             </div>
         @enderror
-       
+
 
         <div class="form-group mb-2">
           <label for="time_from">Booking Atas Nama</label>
@@ -71,7 +71,7 @@ Index User
       <input type="text" class="form-control" id="nama" name="user_id" value="@currency ( $booking->total_harga)" disabled/>
   </div>
       {{-- @if (is_null(@$booking->bukti))
-      
+
       @else --}}
       <div class="mb-3 row mt-3">
         {{-- <label for="foto_barang" class="col-sm-2 col-form-label">Bayar DP sebesar 50% : @currency ( $booking->total_harga/2) </label> --}}
@@ -81,13 +81,13 @@ Index User
           <button type="button" onclick="zoomin()">
             Zoom-In
         </button>
-        <button type="button" onclick="zoomout()"> 
+        <button type="button" onclick="zoomout()">
           Zoom-Out
       </button> <br>
           @else
           {{-- <input type="file" class="form-control" name="bukti" id="bukti" placeholder="bukti"> --}}
           @endif
-             
+
           </div>
       </div>
       @error('bukti')
@@ -96,14 +96,14 @@ Index User
       </div>
       @enderror
       {{-- @endif --}}
-    
+
             </div>
-     
+
 
               {{-- <div class="row justify-content-end">
                 <div class="col-sm-10">
                   @if(!empty(@$booking->bukti))
-                 
+
                   @else
                   <button type="submit" class="btn btn-primary">Send</button>
                   @endif --}}
@@ -134,14 +134,14 @@ Index User
                       next: 'fas fa-chevron-right'
                       },
                       stepping: 10
-                     
+
                   });
                   function zoomin() {
             var GFG = document.getElementById("geeks");
             var currWidth = GFG.clientWidth;
             GFG.style.width = (currWidth + 100) + "px";
         }
-          
+
         function zoomout() {
             var GFG = document.getElementById("geeks");
             var currWidth = GFG.clientWidth;

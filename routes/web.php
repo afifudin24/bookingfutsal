@@ -7,6 +7,9 @@ use App\Http\Controllers\LapanganController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BookingAdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\PDFController;
 
 
 
@@ -28,6 +31,12 @@ use App\Http\Controllers\DashboardController;
 Auth::routes();
 Route::get('/', [HomeController::class, 'jadwal'])->name('home');
 Route::get('/home', [BookingController::class, 'index']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
+    Route::post('/feedback', [FeedbackController::class, 'store']);
+    Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy']);
+});
+
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/booking/index', [BookingController::class, 'index'])->name('booking.index');
     Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
@@ -76,6 +85,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/bookingadmin/create', [BookingController::class, 'create'])->name('booking.create');
     Route::post('/bookingadmin/create', [BookingController::class, 'store']);
     Route::get('/bookingadmin/createOffline', [BookingAdminController::class, 'createOffline'])->name('bookingadmin.createOffline');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::post('/cetakLaporan', [PDFController::class, 'cetakLaporan'])->name('laporan.export');
 });
 Route::middleware(['auth', 'user-access:pemilik'])->group(function () {
     Route::get('/pemilik/index', [BookingAdminController::class, 'indexpemilik'])->name('pemilik.index');

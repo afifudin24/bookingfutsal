@@ -49,7 +49,7 @@ class BookingController extends Controller
     public function jadwal(Request $request)
     {
         $booking = Booking::where('status', 'Masuk Jadwal')
-            ->orWhere('status', 'Selesai')
+            ->orWhere('status', 'Lunas')
             ->get();
         $lapangan = Lapangan::all();
         $data = Lapangan::all('harga', 'status')->first();
@@ -204,7 +204,7 @@ class BookingController extends Controller
                     'lapangan_id' => $request['lapangan_id'],
                     'time_from' => $request['time_from'],
                     'time_to' => $request['time_to'],
-                    'status' => 'Belum Bayar',
+                    'status' => 'Belum Bayar DP',
                     'bukti' => null,
                     'user_id' => Auth::id(),
                     'jam' => $jam,
@@ -331,20 +331,29 @@ class BookingController extends Controller
                 }
             }
 
-            if ($i < 15) {
-                $total += $lapangan->harga;
-            } else if ($i >= 15 && $i < 18) {
-                $total += ($lapangan->harga + 50000);
+             if ($lapangan->nama == 'Lapangan Futsal') {
+                if ($i < 17) {
+                    $total += $lapangan->harga;
+
+                } else {
+                    $total += ($lapangan->harga + 40000);
+                }
             } else {
-                $total += ($lapangan->harga + 100000);
+                $total += $lapangan->harga;
             }
         }
 
         $input = $request->all();
         $input = $request->except('user_id');
+        $pembayaran =  $request->pembayaraan;
+        if($pembayaran == 'Bayar Lunas'){
+            $status = 'Menunggu Konfirmasi Pelunasan';
+        }else if($pembayaran == 'Bayar DP'){
+            $status = 'Menunggu Konfirmasi DP';
+        }
         if ($request->hasFile('bukti')) {
             $fileName = $request->bukti->getClientOriginalName();
-            $request->bukti->storeAs('img', $fileName);
+            $request->bukti->storeAs('img', $fileName, 'public');
             // Storage::disk('public')->put($fileName, $request->file('bukti'));
             $input['bukti'] = $fileName;
 
@@ -355,11 +364,11 @@ class BookingController extends Controller
                     'lapangan_id' => $request['lapangan_id'],
                     'time_from' => $request['time_from'],
                     'time_to' => $request['time_to'],
-                    'status' => 'Pending',
+                    'status' => $status,
                     'bukti' => $input['bukti'] = $fileName,
                     // 'user_id' => Auth::id(),
-                    'jam' => $jam,
-                    'total_harga' => $total,
+                    // 'jam' => $jam,
+                    // 'total_harga' => $total,
                     'pembayaraan' => $request['pembayaraan'],
                     // $input
                     'complete' => $booking->complete + 1,
@@ -371,11 +380,17 @@ class BookingController extends Controller
                 ]);
             }
         } else {
+              $pembayaran =  $request->pembayaraan;
+        if($pembayaran == 'Bayar Lunas'){
+            $status = 'Menunggu Konfirmasi Pelunasan';
+        }else if($pembayaran == 'Bayar DP'){
+            $status = 'Menunggu Konfirmasi DP';
+        }
             $booking->update([
                 'lapangan_id' => $request['lapangan_id'],
                 'time_from' => $request['time_from'],
                 'time_to' => $request['time_to'],
-                'status' => 'Pending',
+                'status' => $status,
                 'jam' => $jam,
                 'total_harga' => $total,
                 'pembayaraan' => $request['pembayaraan'],

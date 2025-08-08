@@ -1,5 +1,5 @@
 @extends('layout.master')
-  
+
 @section('judul')
 
 @endsection
@@ -8,14 +8,14 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        
+
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Data Booking</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-           
+
             {{-- @if ($data?->lapangan->status == 'Tidak Aktif')
                 <h3 style="color: red">Lapangan Tutup</h3>
             @else
@@ -56,9 +56,9 @@
                 <tbody>
                   @foreach ($booking as $item)
                   @auth
-                  @if ($user_id = Auth::user()->id === $item->user_id)  
+                  @if ($user_id = Auth::user()->id === $item->user_id)
                   <tr>
-                                
+
                   {{-- <td>{{ $loop->iteration }}</td> --}}
                   <td>{{ $item->user->name }}</td>
                   {{-- <td>{{ $item->lapangan->nama }}</td> --}}
@@ -66,14 +66,21 @@
                   <td><a href="{{ url("/booking/$item->id/edit")}}">Belum Bayar</a></td>
                   @else
                   {{-- <td><img src="{{asset('storage/img/' . $item->bukti)}}" alt="foto" width="100px"></td> --}}
-                  <td>{{ $item->pembayaraan }}</td>
+                  <td>
+                    {{ $item->pembayaraan }}
+                    @if($item->pembayaraan == 'Bayar DP')
+                    <br>
+                    <a href="{{ url("/booking/$item->id/edit")}}">Bayar Sisa</a>
+                    @endif
+                </td>
                   @endif
-                
-                  <td>{{ Carbon\Carbon::parse($item->time_from)->format('d-M-Y H:00') }}</td>  
-                  <td>{{ Carbon\Carbon::parse($item->time_to)->format('d-M-Y H:00') }}</td> 
-                  <td>{{ $item->jam }}</td>    
-                  <td>@currency ($item->total_harga)</td>    
-                  <td>{{ $item->status }}</td>    
+
+               <td>{{ Carbon\Carbon::parse($item->time_from)->format('d-M-Y H:i') }}</td>
+<td>{{ Carbon\Carbon::parse($item->time_to)->format('d-M-Y H:i') }}</td>
+
+                  <td>{{ $item->jam }}</td>
+                  <td>@currency ($item->total_harga)</td>
+                  <td>{{ $item->status }}</td>
 
 
                   <td>
@@ -86,7 +93,7 @@
                         Action
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        
+
                           <a class="dropdown-item" href="{{ url("/booking/$item->id/show") }}"
                             ><i class="bx bx-edit-alt me-2"></i> Detail</a>
                             <a class="dropdown-item" href="{{ url("/booking/$item->id/invoice")}}"
@@ -95,10 +102,10 @@
                                 ><i class="bx bx-edit-alt me-2"></i>CANCEL BOOKING</a> --}}
                       </div>
                     </div>
-                    
+
                   </form>
                   <form action="{{ url("/booking/booking/konfirmasi") }}" method="post" enctype="multipart/form-data">
-                    @csrf 
+                    @csrf
                     <input style="display: none;" type="text" hidden name="id" value="{{ $item->id }}" class="form-control">
                     <input style="display: none;" type="text" hidden name="status" value="Batal" class="form-control">
                 <button type="submit" class="btn btn-danger mb-2" onclick="return myFunction();">Batal</button>
@@ -112,7 +119,7 @@
                       Action
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      
+
                         <a class="dropdown-item" href="{{ url("/booking/$item->id/show") }}"
                           ><i class="bx bx-edit-alt me-2"></i> Detail</a>
                           <a class="dropdown-item" href="{{ url("/booking/$item->id/invoice")}}"
@@ -127,27 +134,27 @@
                       Action
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                     
+
                         <a class="dropdown-item" href="{{ url("/booking/$item->id/show") }}"
                           ><i class="bx bx-edit-alt me-2"></i> Detail</a>
                           <a class="dropdown-item" href="{{ url("/booking/$item->id/edit") }}"
                             ><i class="bx bx-edit-alt me-2"></i> Edit</a>
-                          
+
                     </div>
                   </div>
 
-                @endif  
+                @endif
                 <form action="{{ url("/booking/$item->id") }}" method="POST">
-                  @csrf 
+                  @csrf
                   @method('delete')
               @if ($item->status == 'Belum Bayar')
               <input type="submit" class="btn btn-danger mt-2" value="Batal">
               @endif
             </form>
-                  </td>        
-                  </tr>  
+                  </td>
+                  </tr>
                   @endif
-                  @endauth          
+                  @endauth
                   @endforeach
                 </tbody>
                 <tfoot>

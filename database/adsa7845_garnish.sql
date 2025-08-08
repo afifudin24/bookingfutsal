@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 20 Feb 2025 pada 15.43
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 8.2.12
+-- Host: localhost:3306
+-- Waktu pembuatan: 08 Agu 2025 pada 18.50
+-- Versi server: 10.11.13-MariaDB-cll-lve
+-- Versi PHP: 8.3.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `laravelfutsal`
+-- Database: `adsa7845_garnish`
 --
 
 -- --------------------------------------------------------
@@ -31,13 +31,13 @@ CREATE TABLE `booking` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `lapangan_id` bigint(20) UNSIGNED NOT NULL,
-  `bukti` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bukti` varchar(150) DEFAULT NULL,
   `time_from` datetime NOT NULL,
   `time_to` datetime NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
   `jam` int(11) NOT NULL,
   `total_harga` int(11) NOT NULL,
-  `pembayaraan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pembayaraan` varchar(255) DEFAULT NULL,
   `complete` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -48,8 +48,9 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`id`, `user_id`, `lapangan_id`, `bukti`, `time_from`, `time_to`, `status`, `jam`, `total_harga`, `pembayaraan`, `complete`, `created_at`, `updated_at`) VALUES
-(10, 4, 2, NULL, '2025-02-28 18:00:00', '2025-02-28 19:00:00', 'Belum Bayar', 1, 225000, NULL, 0, '2025-02-16 14:11:15', '2025-02-16 14:11:15'),
-(13, 5, 1, 'ss.PNG', '2025-03-06 16:00:00', '2025-03-06 18:00:00', 'Pending', 2, 240000, 'Bayar Lunas', 1, '2025-02-20 13:56:57', '2025-02-20 14:19:26');
+(32, 19, 1, NULL, '2025-08-07 19:00:00', '2025-08-07 20:00:00', 'Belum Bayar', 1, 110000, NULL, 0, '2025-08-06 03:23:02', '2025-08-06 03:23:02'),
+(33, 21, 2, NULL, '2025-08-08 19:00:00', '2025-08-08 20:00:00', 'Belum Bayar', 1, 30000, NULL, 0, '2025-08-06 03:59:52', '2025-08-06 03:59:52'),
+(34, 21, 1, NULL, '2025-08-08 19:00:00', '2025-08-08 20:00:00', 'Belum Bayar', 1, 110000, NULL, 0, '2025-08-06 04:01:18', '2025-08-06 04:01:18');
 
 -- --------------------------------------------------------
 
@@ -59,13 +60,28 @@ INSERT INTO `booking` (`id`, `user_id`, `lapangan_id`, `bukti`, `time_from`, `ti
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `tanggal_feedback` date NOT NULL,
+  `feedback` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -75,8 +91,8 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
@@ -91,9 +107,9 @@ CREATE TABLE `jobs` (
 
 CREATE TABLE `lapangan` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nama` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama` varchar(150) NOT NULL,
   `harga` int(11) NOT NULL,
-  `status` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(150) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -109,12 +125,44 @@ INSERT INTO `lapangan` (`id`, `nama`, `harga`, `status`, `created_at`, `updated_
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `laporan`
+--
+
+CREATE TABLE `laporan` (
+  `id` int(11) NOT NULL,
+  `tanggal_konfirmasi` date NOT NULL,
+  `cara_bayar` varchar(255) NOT NULL,
+  `total_harga` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `laporan`
+--
+
+INSERT INTO `laporan` (`id`, `tanggal_konfirmasi`, `cara_bayar`, `total_harga`, `created_at`, `updated_at`) VALUES
+(1, '2025-03-13', 'Bayar Lunas', 170000, '2025-03-13 06:14:21', '2025-03-13 06:14:21'),
+(2, '2025-03-26', 'Bayar Lunas', 340000, '2025-03-26 12:14:21', '2025-03-26 12:14:21'),
+(3, '2025-04-09', 'Bayar Lunas', 220000, '2025-04-09 14:19:42', '2025-04-09 14:19:42'),
+(4, '2025-07-25', 'Cash Lunas', 220000, '2025-07-25 11:15:40', '2025-07-25 11:15:40'),
+(5, '2025-07-25', 'Bayar Lunas', 110000, '2025-07-25 11:36:50', '2025-07-25 11:36:50'),
+(6, '2025-07-25', 'Bayar Lunas', 110000, '2025-07-25 13:00:06', '2025-07-25 13:00:06'),
+(7, '2025-07-28', 'Bayar Lunas', 110000, '2025-07-28 13:35:10', '2025-07-28 13:35:10'),
+(8, '2025-07-28', 'Cash Lunas', 110000, '2025-07-28 13:39:38', '2025-07-28 13:39:38'),
+(9, '2025-07-28', 'Cash Lunas', 30000, '2025-07-28 13:41:13', '2025-07-28 13:41:13'),
+(10, '2025-08-06', 'Bayar Lunas', 110000, '2025-08-05 22:53:27', '2025-08-05 22:53:27'),
+(11, '2025-08-06', 'Bayar Lunas', 140000, '2025-08-05 23:07:28', '2025-08-05 23:07:28');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `migrations`
 --
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -138,8 +186,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -151,11 +199,11 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -170,13 +218,13 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT 0,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alamat` varchar(255) NOT NULL DEFAULT '0',
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -186,11 +234,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `type`, `alamat`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin User', 'admin@gmail.com', NULL, '$2y$10$wGgS8FMktbpCaO/csmNgROGtplv0YsKfbnl8OpVlu8CiaoLwJV9rG', 1, 'Alamat Admin', NULL, '2025-02-16 13:07:56', '2025-02-16 13:07:56'),
-(2, 'Ibu Ajang', 'user@gmail.com', NULL, '$2y$10$Qlj3Dgt46luY4vr41fNnFO52TFudMS6oZo.zq6e24prq57eFmg/HO', 0, 'Kalimantan', NULL, '2025-02-16 13:07:57', '2025-02-16 13:07:57'),
-(3, 'Pemilik', 'pemilik@gmail.com', NULL, '$2y$10$wGgS8FMktbpCaO/csmNgROGtplv0YsKfbnl8OpVlu8CiaoLwJV9rG', 2, 'Queen Futsal', NULL, '2025-02-16 13:07:57', '2025-02-16 13:07:57'),
-(4, 'Afif Waliyudin', 'afifrider507@gmail.com', NULL, '$2y$10$E9Dx9xVJe80LZErHgyCOaOUlVT3Fqk0xpGUFiKVtm3OmdwSM2xu.O', 0, 'Desa Surusunda Rt 01/03', NULL, '2025-02-16 13:14:25', '2025-02-16 13:14:25'),
-(5, 'awzhiao', 'awzhiao@gmail.com', NULL, '$2y$10$wGgS8FMktbpCaO/csmNgROGtplv0YsKfbnl8OpVlu8CiaoLwJV9rG', 0, 'Surusunda Aja', NULL, '2025-02-16 13:24:15', '2025-02-16 13:24:15');
+(1, 'Admin User', 'admin@gmail.com', NULL, '$2y$10$o7/OZRb9O31Gyi8Fl03DjOtkT8zkx7OvUOTFzgdejW3PmV1ybQ9Ai', 1, 'Alamat Admin', NULL, '2025-02-16 13:07:56', '2025-08-05 22:54:17'),
+(19, 'maria', 'maria01@gmail.com', NULL, '$2y$10$4IDdCW7ySC9687s1/fbVtenLR0e569V5YE4xPQ.zVNWlGMCRk0JbC', 0, 'majenang', NULL, '2025-08-06 03:21:37', '2025-08-06 03:21:37'),
+(20, 'ulfah', 'ulfah@gmail.com', NULL, '$2y$10$QQpXAeMNKJGXB4wm/J8QVe7Xenk7DUfbUppc/aOHD.4YyTeBOxpyK', 0, 'wanareja', NULL, '2025-08-06 03:32:16', '2025-08-06 03:32:16'),
+(21, 'pak slamet', 'pakslamet2@gmail.com', NULL, '$2y$10$lQCRIhqsf1sxjGavQibIPOU476DIg.EgvtsSpvMXcjINFEWMizw5q', 0, 'majenang', NULL, '2025-08-06 03:59:09', '2025-08-06 03:59:09');
 
 --
 -- Indexes for dumped tables
@@ -212,6 +259,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indeks untuk tabel `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `jobs`
 --
 ALTER TABLE `jobs`
@@ -222,6 +275,12 @@ ALTER TABLE `jobs`
 -- Indeks untuk tabel `lapangan`
 --
 ALTER TABLE `lapangan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `laporan`
+--
+ALTER TABLE `laporan`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -259,13 +318,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `jobs`
@@ -278,6 +343,12 @@ ALTER TABLE `jobs`
 --
 ALTER TABLE `lapangan`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `laporan`
+--
+ALTER TABLE `laporan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -295,7 +366,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

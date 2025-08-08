@@ -36,7 +36,16 @@
 
         <td>{{ $loop->iteration }}</td>
         <td>{{ $item->nama }}</td>
-        <td>{{ $item->harga }}</td>
+        <td>
+        @if($item->nama == 'Lapangan Futsal')
+      {{ $item->harga }} (Pagi)
+      <br>
+      {{ $item->harga + 40000 }} (Malam)
+    @else
+    {{ $item->harga }}
+
+  @endif
+        </td>
         <td>{{ $item->status }}</td>
         <td>
         <form action="{{ url("/lapangan/$item->id") }}" method="POST">

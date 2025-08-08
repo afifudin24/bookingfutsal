@@ -6,12 +6,14 @@ namespace App\Http\Controllers;
 use App\Models\Lapangan;
 use App\Models\Booking;
 use App\Models\User;
+use App\Models\Laporan;
 use Carbon\Carbon;
 use PDF;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isNull;
 
@@ -19,8 +21,8 @@ class BookingAdminController extends Controller
 {
     public function index(Request $request)
     {
-        $booking = Booking::where('pembayaraan', 'Bayar Lunas')
-            ->get();
+      $booking = Booking::whereIn('pembayaraan', ['Bayar DP', 'Bayar Lunas'])->get();
+
         $data = Booking::all()->first();
         $pembayaran = 'Online';
         return view('bookingadmin.index', compact('booking', 'data', 'pembayaran'));
@@ -58,15 +60,25 @@ class BookingAdminController extends Controller
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
+        $pembayaran = $request->pembayaran;
         if (empty($start_date && $end_date)) {
-            $booking = Booking::all();
+            if ($pembayaran == 'Offline') {
+                $booking = Booking::where('pembayaraan', 'Cash Lunas')->get();
+                // $booking = Booking::where('');
+            } else {
+                $booking = Booking::where('pembayaraan', 'Bayar Lunas')->get();
+            }
             $data = Booking::all()->first();
-            return view('bookingadmin.index', compact('booking', 'data'));
+            return view('bookingadmin.index', compact('booking', 'data', 'pembayaran'));
         } else {
-            $booking = Booking::whereBetween('time_from', [$start_date, $end_date])
-                ->get();
+            if ($pembayaran == 'Offline') {
+                $booking = Booking::whereBetween(DB::raw('DATE(time_from)'), [$start_date, $end_date])->where('pembayaraan', 'Cash Lunas')->get();
+            } else {
+                $booking = Booking::whereBetween(DB::raw('DATE(time_from)'), [$start_date, $end_date])->where('pembayaraan', 'Bayar Lunas')->get();
+            }
+
             $data = Booking::all()->first();
-            return view('bookingadmin.index', compact('booking', 'data'));
+            return view('bookingadmin.index', compact('booking', 'data', 'pembayaran'));
         }
     }
     public function jadwal(Request $request)
@@ -118,6 +130,14 @@ class BookingAdminController extends Controller
     {
         $data = Booking::find($request->id);
         $data->status = $request->status;
+        if ($request->status == 'Selesai') {
+            $laporan = new Laporan();
+            // tanggal konfirmasi gunakan tanggal sekarang
+            $laporan->tanggal_konfirmasi = date('Y-m-d');
+            $laporan->cara_bayar = $data->pembayaraan;
+            $laporan->total_harga = $data->total_harga;
+            $laporan->save();
+        }
         $data->save();
         return redirect('/bookingadmin/index');
     }

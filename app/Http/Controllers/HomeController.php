@@ -42,7 +42,7 @@ class HomeController extends Controller
     public function jadwal(Request $request)
     {
         $booking = Booking::with('lapangan')->where('status', 'Masuk Jadwal')
-            ->orWhere('status', 'Selesai')
+            ->orWhere('status', 'Lunas')
             ->get();
         $lapangan = Lapangan::all();
         // dd($booking);
