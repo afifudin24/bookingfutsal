@@ -282,7 +282,7 @@
         next: 'fas fa-chevron-right',
     },
     minDate: new Date(),      // hanya bisa pilih mulai dari sekarang
-    stepping: 30,             // setiap 30 menit
+    stepping: 5,             // setiap 30 menit
     disabledHours: [0, 1, 2, 3, 4, 5, 6] // nonaktifkan jam 00:00 - 06:59
 });
 

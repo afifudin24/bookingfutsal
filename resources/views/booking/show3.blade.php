@@ -122,20 +122,20 @@ Index User
           <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
               <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
               <script>
-                  $('.datetimepicker').datetimepicker({
-                      // format: 'YYYY-MM-DD HH:mm',
-                      format: 'YYYY-MM-DD HH',
-                      locale: 'en',
-                      sideBySide: true,
-                      icons: {
-                      up: 'fas fa-chevron-up',
-                      down: 'fas fa-chevron-down',
-                      previous: 'fas fa-chevron-left',
-                      next: 'fas fa-chevron-right'
-                      },
-                      stepping: 10
-
-                  });
+                         $('.datetimepicker').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm',
+    locale: 'id',
+    sideBySide: true,
+    icons: {
+        up: 'fas fa-chevron-up',
+        down: 'fas fa-chevron-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+    },
+    minDate: new Date(),
+    stepping: 5, // interval menitnya
+    disabledHours: [0, 1, 2, 3, 4, 5, 6], // nonaktifkan jam tertentu
+});
                   function zoomin() {
             var GFG = document.getElementById("geeks");
             var currWidth = GFG.clientWidth;

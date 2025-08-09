@@ -124,20 +124,20 @@
             }
 
         });
-        $('.datetimepicker').datetimepicker({
-            format: 'YYYY-MM-DD HH:00',
-            locale: 'id',
-            sideBySide: true,
-            icons: {
-                up: 'fas fa-chevron-up',
-                down: 'fas fa-chevron-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-            },
-            minDate: new Date,
-            stepping: 10,
-            disabledHours: [0, 1, 2, 3, 4, 5, 6]
-        });
+               $('.datetimepicker').datetimepicker({
+    format: 'YYYY-MM-DD HH:mm',
+    locale: 'id',
+    sideBySide: true,
+    icons: {
+        up: 'fas fa-chevron-up',
+        down: 'fas fa-chevron-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+    },
+    minDate: new Date(),
+    stepping: 5, // interval menitnya
+    disabledHours: [0, 1, 2, 3, 4, 5, 6], // nonaktifkan jam tertentu
+});
         $('.datetimepicker').on('dp.change', e => {
             const timefrom = moment($('#time_from').val());
             const timeto = moment($('#time_to').val());
